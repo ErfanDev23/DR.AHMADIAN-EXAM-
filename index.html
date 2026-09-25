@@ -8,37 +8,53 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root {
-    --bg1: #667eea;
-    --bg2: #764ba2;
-    --card: rgba(255,255,255,0.95);
-    --text: #2c3e50;
-    --text-soft: #7f8c8d;
-    --border: rgba(0,0,0,0.08);
-    --input-bg: #f7f9fc;
-    --option-bg: #f7f9fc;
-    --option-hover: #eef3ff;
-    --shadow: 0 20px 60px rgba(0,0,0,0.15);
+    --bg1: #6d5bf5;
+    --bg2: #a45bf7;
+    --bg3: #ff6fa5;
+    --card: rgba(255,255,255,0.92);
+    --card-solid: #ffffff;
+    --text: #221b3d;
+    --text-soft: #857f9b;
+    --border: rgba(109,91,245,0.14);
+    --input-bg: #f5f3ff;
+    --option-bg: #f7f6fd;
+    --option-hover: #ece8ff;
+    --shadow: 0 24px 64px rgba(70,40,160,0.20);
+    --accent: #6d5bf5;
+    --accent2: #ff6fa5;
+    --radius: 20px;
+    --success1: #0fb98b;
+    --success2: #6fe3c4;
   }
   body.dark {
-    --bg1: #0f172a;
-    --bg2: #1e293b;
-    --card: rgba(30,41,59,0.95);
-    --text: #e2e8f0;
-    --text-soft: #94a3b8;
-    --border: rgba(255,255,255,0.08);
-    --input-bg: #1e293b;
-    --option-bg: #1e293b;
-    --option-hover: #334155;
-    --shadow: 0 20px 60px rgba(0,0,0,0.5);
+    --bg1: #0b0f24;
+    --bg2: #171436;
+    --bg3: #351b4d;
+    --card: rgba(24,20,46,0.92);
+    --card-solid: #181430;
+    --text: #ecebfa;
+    --text-soft: #9691b8;
+    --border: rgba(255,255,255,0.09);
+    --input-bg: #191532;
+    --option-bg: #1c1838;
+    --option-hover: #292350;
+    --shadow: 0 24px 64px rgba(0,0,0,0.55);
   }
 
   * { box-sizing: border-box; font-family: 'Vazirmatn', Tahoma, sans-serif; margin: 0; padding: 0; }
 
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
   body {
     min-height: 100vh;
-    background: linear-gradient(135deg, var(--bg1), var(--bg2));
+    background:
+      radial-gradient(1100px circle at 12% -10%, rgba(255,111,165,0.35), transparent 55%),
+      radial-gradient(900px circle at 105% 10%, rgba(164,91,247,0.35), transparent 55%),
+      linear-gradient(160deg, var(--bg1), var(--bg2) 55%, var(--bg3));
     background-attachment: fixed;
-    padding: 20px;
+    padding: 32px 16px;
+    padding-top: max(32px, env(safe-area-inset-top, 0px));
+    padding-bottom: max(32px, env(safe-area-inset-bottom, 0px));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,13 +68,13 @@
     content: '';
     position: fixed;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: .4;
+    filter: blur(90px);
+    opacity: .45;
     z-index: 0;
     pointer-events: none;
   }
-  body::before { width: 400px; height: 400px; background: #f093fb; top: -100px; right: -100px; animation: float 8s ease-in-out infinite; }
-  body::after { width: 350px; height: 350px; background: #4facfe; bottom: -100px; left: -100px; animation: float 10s ease-in-out infinite reverse; }
+  body::before { width: 420px; height: 420px; background: #ffb46f; top: -120px; right: -100px; animation: float 9s ease-in-out infinite; }
+  body::after { width: 380px; height: 380px; background: #4fd6fe; bottom: -120px; left: -100px; animation: float 11s ease-in-out infinite reverse; }
 
   @keyframes float {
     0%,100% { transform: translateY(0) }
@@ -67,29 +83,31 @@
 
   .theme-btn {
     position: fixed;
-    top: 20px;
+    top: max(20px, env(safe-area-inset-top, 0px));
     left: 20px;
-    width: 45px; height: 45px;
+    width: 48px; height: 48px;
     border-radius: 50%;
     border: none;
     background: var(--card);
+    backdrop-filter: blur(14px);
     color: var(--text);
     font-size: 20px;
     cursor: pointer;
     box-shadow: var(--shadow);
     z-index: 100;
     transition: transform .3s;
+    border: 1px solid var(--border);
   }
   .theme-btn:hover { transform: rotate(20deg) scale(1.1); }
 
   .container {
-    max-width: 720px;
+    max-width: 760px;
     width: 100%;
     background: var(--card);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 40px;
-    border-radius: 24px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 44px;
+    border-radius: 28px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
     position: relative;
@@ -106,10 +124,10 @@
 
   h1 {
     text-align: center;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 800;
     margin-bottom: 8px;
-    background: linear-gradient(135deg, #667eea, #f093fb);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -118,23 +136,23 @@
   .subtitle {
     text-align: center;
     color: var(--text-soft);
-    margin-bottom: 30px;
+    margin-bottom: 32px;
     font-size: 14px;
   }
 
   label {
     display: block;
-    margin: 18px 0 8px;
-    font-weight: 600;
+    margin: 20px 0 8px;
+    font-weight: 700;
     font-size: 14px;
     color: var(--text);
   }
 
   input, select {
     width: 100%;
-    padding: 14px 16px;
+    padding: 15px 18px;
     border: 2px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     font-size: 15px;
     background: var(--input-bg);
     color: var(--text);
@@ -144,30 +162,32 @@
   }
 
   input:focus, select:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 4px rgba(102,126,234,0.15);
-    background: var(--card);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 5px rgba(109,91,245,0.16);
+    background: var(--card-solid);
   }
 
   button {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     color: #fff;
     border: none;
-    padding: 14px 28px;
-    border-radius: 12px;
+    padding: 16px 28px;
+    border-radius: 14px;
     cursor: pointer;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     font-family: inherit;
-    margin-top: 24px;
+    margin-top: 26px;
     width: 100%;
     transition: all .3s;
-    box-shadow: 0 8px 20px rgba(102,126,234,0.3);
+    box-shadow: 0 10px 24px rgba(109,91,245,0.35);
+    letter-spacing: .2px;
   }
 
   button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(102,126,234,0.45);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(109,91,245,0.45);
+    filter: brightness(1.05);
   }
 
   button:active { transform: translateY(0); }
@@ -176,56 +196,59 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     gap: 15px;
   }
 
   .timer {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     color: #fff;
-    padding: 10px 22px;
+    padding: 11px 22px;
     border-radius: 50px;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 800;
     font-variant-numeric: tabular-nums;
-    box-shadow: 0 8px 20px rgba(102,126,234,0.35);
+    box-shadow: 0 10px 24px rgba(109,91,245,0.4);
     transition: all .3s;
     display: flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
   }
 
   .timer.warning {
-    background: linear-gradient(135deg, #f5576c, #f093fb);
+    background: linear-gradient(135deg, #f5576c, #ff9966);
     animation: pulse 1s infinite;
   }
 
   @keyframes pulse {
     0%,100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    50% { transform: scale(1.06); }
   }
 
   .progress-bar {
-    height: 8px;
+    height: 10px;
     background: var(--input-bg);
     border-radius: 50px;
     overflow: hidden;
     margin-bottom: 25px;
     flex: 1;
+    border: 1px solid var(--border);
   }
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #667eea, #f093fb);
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
     border-radius: 50px;
     transition: width .4s ease;
     width: 0%;
+    box-shadow: 0 0 12px rgba(109,91,245,0.5);
   }
 
   .question-counter {
     color: var(--text-soft);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     white-space: nowrap;
   }
 
@@ -238,29 +261,30 @@
 
   .question-num {
     display: inline-block;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     color: #fff;
-    padding: 4px 14px;
+    padding: 5px 16px;
     border-radius: 50px;
     font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 12px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    box-shadow: 0 6px 14px rgba(109,91,245,0.3);
   }
 
   .question {
     font-size: 17px;
-    font-weight: 600;
-    line-height: 1.9;
-    margin-bottom: 22px;
+    font-weight: 700;
+    line-height: 1.95;
+    margin-bottom: 24px;
     color: var(--text);
     white-space: pre-line;
   }
 
   .question-image {
     background: var(--input-bg);
-    border-radius: 12px;
-    padding: 15px;
-    margin: 15px 0;
+    border-radius: 14px;
+    padding: 16px;
+    margin: 16px 0;
     text-align: center;
     border: 2px dashed var(--border);
   }
@@ -268,7 +292,7 @@
   .question-image img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 10px;
   }
 
   .question-image .placeholder {
@@ -282,49 +306,50 @@
     align-items: center;
     gap: 12px;
     background: var(--option-bg);
-    padding: 14px 18px;
+    padding: 15px 18px;
     margin: 10px 0;
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
     border: 2px solid transparent;
     transition: all .25s;
     font-size: 15px;
     color: var(--text);
+    line-height: 1.7;
   }
 
   .option:hover {
     background: var(--option-hover);
     transform: translateX(-4px);
-    border-color: rgba(102,126,234,0.3);
+    border-color: rgba(109,91,245,0.35);
   }
 
   .option.selected {
-    background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(240,147,251,0.15));
-    border-color: #667eea;
-    font-weight: 600;
+    background: linear-gradient(135deg, rgba(109,91,245,0.15), rgba(255,111,165,0.15));
+    border-color: var(--accent);
+    font-weight: 700;
   }
 
   .option input {
     width: 20px; height: 20px;
-    accent-color: #667eea;
+    accent-color: var(--accent);
     cursor: pointer;
     flex-shrink: 0;
   }
 
   .option-letter {
-    width: 30px; height: 30px;
+    width: 32px; height: 32px;
     display: flex; align-items: center; justify-content: center;
-    background: var(--card);
-    border-radius: 8px;
-    font-weight: 700;
+    background: var(--card-solid);
+    border-radius: 9px;
+    font-weight: 800;
     font-size: 13px;
-    color: #667eea;
+    color: var(--accent);
     flex-shrink: 0;
     border: 1px solid var(--border);
   }
 
   .option.selected .option-letter {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     color: #fff;
     border-color: transparent;
   }
@@ -333,7 +358,7 @@
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    margin-top: 25px;
+    margin-top: 26px;
   }
 
   .nav button { flex: 1; margin-top: 0; }
@@ -351,18 +376,18 @@
     border: 2px solid var(--border) !important;
   }
 
-  .btn-secondary:hover { background: var(--option-hover) !important; }
+  .btn-secondary:hover { background: var(--option-hover) !important; transform: translateY(-2px); }
 
   .btn-finish {
-    background: linear-gradient(135deg, #f5576c, #f093fb) !important;
-    box-shadow: 0 8px 20px rgba(245,87,108,0.35) !important;
-    margin-top: 15px;
+    background: linear-gradient(135deg, #f5576c, #ff9966) !important;
+    box-shadow: 0 10px 24px rgba(245,87,108,0.4) !important;
+    margin-top: 16px;
   }
 
   .report-header {
     text-align: center;
-    margin-bottom: 25px;
-    padding-bottom: 20px;
+    margin-bottom: 26px;
+    padding-bottom: 22px;
     border-bottom: 2px dashed var(--border);
   }
 
@@ -370,48 +395,194 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 16px;
-    border-radius: 10px;
-    margin: 8px 0;
+    padding: 15px 18px;
+    border-radius: 12px;
+    margin: 9px 0;
     background: var(--input-bg);
     font-size: 14px;
+    border: 1px solid var(--border);
   }
 
-  .report-item b { color: var(--text); font-weight: 700; }
+  .report-item b { color: var(--text); font-weight: 800; }
   .report-item span { color: var(--text-soft); }
 
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin: 20px 0;
+    gap: 14px;
+    margin: 22px 0;
   }
 
   .stat {
-    padding: 22px 10px;
-    border-radius: 14px;
+    padding: 24px 10px;
+    border-radius: 16px;
     text-align: center;
     color: #fff;
     font-weight: 700;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
   }
 
-  .stat.correct { background: linear-gradient(135deg, #11998e, #38ef7d); }
-  .stat.empty { background: linear-gradient(135deg, #757f9a, #d7dde8); }
+  .stat.correct { background: linear-gradient(135deg, var(--success1), var(--success2)); }
+  .stat.empty { background: linear-gradient(135deg, #7c8296, #b7bfd6); }
 
-  .stat-num { font-size: 30px; display: block; margin-bottom: 6px; }
+  .stat-num { font-size: 32px; display: block; margin-bottom: 6px; }
   .stat-lbl { font-size: 12px; opacity: .95; }
 
   @media (max-width: 500px) {
-    .container { padding: 25px 20px; border-radius: 18px; }
-    h1 { font-size: 22px; }
+    body { padding: 18px 12px; }
+    .container { padding: 26px 20px; border-radius: 20px; }
+    h1 { font-size: 23px; }
     .question { font-size: 15px; }
-    .option { font-size: 14px; padding: 12px 14px; }
+    .option { font-size: 14px; padding: 13px 14px; }
+    .timer { font-size: 15px; padding: 9px 16px; }
+  }
+
+  /* ---------- نوار ابزار (تم، فونت، تمام‌صفحه) ---------- */
+  html { font-size: calc(16px * var(--font-scale, 1)); }
+
+  .toolbar {
+    position: fixed;
+    top: max(20px, env(safe-area-inset-top, 0px));
+    left: 20px;
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+  }
+
+  .icon-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card);
+    backdrop-filter: blur(14px);
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform .3s;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-btn:hover { transform: scale(1.1); }
+  .icon-btn:active { transform: scale(.95); }
+
+  /* ---------- ناوبر سوالات ---------- */
+  .qnav-toggle {
+    width: auto;
+    padding: 10px 16px;
+    margin-top: 0;
+    border-radius: 12px;
+    background: var(--input-bg);
+    color: var(--text);
+    box-shadow: none;
+    border: 2px solid var(--border);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .qnav-toggle:hover { background: var(--option-hover); transform: none; box-shadow: none; }
+
+  .qnav-panel {
+    margin: 14px 0 6px;
+    padding: 16px;
+    background: var(--input-bg);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+  }
+
+  .qnav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+    gap: 8px;
+  }
+
+  .qnav-item {
+    aspect-ratio: 1;
+    border-radius: 9px;
+    border: 2px solid var(--border);
+    background: var(--card-solid);
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s;
+  }
+  .qnav-item:hover { transform: scale(1.08); }
+  .qnav-item.answered { background: linear-gradient(135deg, var(--success1), var(--success2)); color: #fff; border-color: transparent; }
+  .qnav-item.marked { border-color: #ffb100; box-shadow: 0 0 0 2px rgba(255,177,0,0.35) inset; }
+  .qnav-item.current { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(109,91,245,0.25); }
+
+  .qnav-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--text-soft);
+  }
+  .qnav-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 4px; display: inline-block; border: 2px solid var(--border); }
+  .legend-dot.answered { background: linear-gradient(135deg, var(--success1), var(--success2)); border-color: transparent; }
+  .legend-dot.marked { border-color: #ffb100; }
+  .legend-dot.current { border-color: var(--accent); }
+
+  /* ---------- علامت‌گذاری برای بازبینی ---------- */
+  .mark-row { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+  .mark-btn {
+    width: auto;
+    margin-top: 0;
+    padding: 7px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--card-solid);
+    color: var(--text-soft);
+    border: 2px solid var(--border);
+    box-shadow: none;
+  }
+  .mark-btn.active {
+    background: linear-gradient(135deg, #ffb100, #ff7a3d);
+    color: #fff;
+    border-color: transparent;
+  }
+  .mark-btn:hover { transform: none; box-shadow: none; }
+
+  /* ---------- کنفتی پایان آزمون ---------- */
+  .confetti-piece {
+    position: fixed;
+    top: -20px;
+    z-index: 999;
+    border-radius: 2px;
+    pointer-events: none;
+    animation: confetti-fall linear forwards;
+  }
+  @keyframes confetti-fall {
+    to { transform: translateY(110vh) rotate(540deg); opacity: .3; }
+  }
+
+  /* ---------- چاپ کارنامه ---------- */
+  @media print {
+    body { background: #fff !important; padding: 0; }
+    body::before, body::after { display: none; }
+    .theme-btn, .toolbar, button, .qnav-toggle { display: none !important; }
+    .container { box-shadow: none; border: none; backdrop-filter: none; max-width: 100%; }
   }
 </style>
 </head>
 <body>
 
-<button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+<div class="toolbar">
+  <button class="icon-btn" onclick="changeFont(-1)" title="کوچک‌تر کردن متن">A-</button>
+  <button class="icon-btn" onclick="changeFont(1)" title="بزرگ‌تر کردن متن">A+</button>
+  <button class="icon-btn" onclick="toggleFullscreen()" id="fsBtn" title="تمام‌صفحه">⛶</button>
+  <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+</div>
 
 <div class="container">
 
@@ -443,6 +614,20 @@
       <div class="timer" id="timer">⏱️ 25:00</div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
       <div class="question-counter" id="counter">1 / 1</div>
+    </div>
+
+    <button class="btn-secondary qnav-toggle" onclick="toggleQNav()" id="qnavToggleBtn">🗂️ نمایش نقشه سوالات</button>
+    <div id="qnavPanel" class="qnav-panel hidden">
+      <div class="qnav-grid" id="qnavGrid"></div>
+      <div class="qnav-legend">
+        <span><i class="legend-dot answered"></i> پاسخ داده‌شده</span>
+        <span><i class="legend-dot marked"></i> علامت‌گذاری‌شده</span>
+        <span><i class="legend-dot current"></i> سوال جاری</span>
+      </div>
+    </div>
+
+    <div class="mark-row">
+      <button class="mark-btn" onclick="toggleMark()" id="markBtn">🚩 علامت‌گذاری برای بازبینی</button>
     </div>
 
     <div id="questionBox"></div>
@@ -478,6 +663,7 @@
     </div>
 
     <button onclick="downloadPDF()">📥 دانلود کارنامه PDF</button>
+    <button class="btn-secondary" onclick="window.print()" style="margin-top:10px">🖨️ چاپ کارنامه</button>
     <button class="btn-secondary" onclick="location.reload()" style="margin-top:10px">🔄 آزمون جدید</button>
   </div>
 
@@ -2030,267 +2216,4 @@ const questionBank = {
       answer: 3
     },
     {
-      q: "با توجه به مطلب کتاب درسی درباره سامانه گردش خون در ماهی استخوانی، کدام موارد درست است؟",
-      options: [
-        "الف) رگ اصلی سطح پشتی بدن، طول بیشتری نسبت به رگ‌های سطح شکمی دارد.",
-        "ب) سینوس سیاهرگی نسبت به مخروط سرخرگی، حفره داخلی وسیع‌تری دارد.",
-        "ج) دهلیز برخلاف بطن، دیواره‌ای نازک و فاقد برآمدگی در سطح داخلی دارد.",
-        "د) بطن برخلاف سینوس سیاهرگی، از طریق دریچه با دهلیز ارتباط دارد."
-      ],
-      answer: 0
-    },
-    {
-      q: "با توجه به شکل زیر که بخشی از یکی از دستگاه‌های بدن جانوری بالغ را نشان می‌دهد، کدام مورد درست است؟",
-      image: null,
-      options: [
-        "بخش «۱» برخلاف «۴»، مایع را از قلب خارج می‌کند.",
-        "بخش «۳» برخلاف بخش «۱»، در سطح پشتی بدن قرار دارد.",
-        "در بخش «۳» برخلاف بخش «۱»، همانند نوعی دریچه عبور می‌کند.",
-        "بخش «۳» برخلاف بخش «۲»، در بخش‌های حجیم‌شده رگ پشتی دیده می‌شود."
-      ],
-      answer: 3
-    },
-    {
-      q: "کدام مورد، ویژگی مشترک ساختاری در هیدر و پلاناریا است که وظیفه گردش مواد را بر عهده دارد؟",
-      options: [
-        "مایعی برای گردش مواد در بدن وجود دارد.",
-        "حرکات بدن به جابه‌جایی مواد کمک می‌کند.",
-        "انشعابات آن به تمام نواحی بدن نفوذ می‌کنند.",
-        "آنزیم‌های تجزیه‌کننده مواد درون آن وجود دارند."
-      ],
-      answer: 1
-    },
-    {
-      q: "کدام مورد درباره جانورانی صادق است که در بخشی از قلب سه حفره‌ای آن‌ها، خون تیره و روشن با هم مخلوط می‌شود؟",
-      options: [
-        "در جانور بالغ، تلمبه‌ای با فشار بیشتر برای انجام تبادلات گازی صورت می‌گیرد.",
-        "در قلب این جانوران، بطن با هر دو دهلیز در ارتباط است و خون هر دو دهلیز را دریافت می‌کند.",
-        "سرخرگ، بلافاصله بعد از خارج شدن از بطن دوشاخه می‌شود که یک شاخه خون را فقط به سمت شش‌ها و شاخه دیگر خون را به سایر اندام‌ها می‌برد.",
-        "با وارد شدن خون تیره از دهلیز راست و چپ به داخل بطن، بطن، خون داخل خود را به سمت سرخرگ پمپ می‌کند."
-      ],
-      answer: 3
-    },
-    {
-      q: "چه تعداد از موارد زیر شباهت ملخ، کرم خاکی و ماهی را به صورت صحیح بیان می‌کند؟\nالف) ورود خون از سیاهرگ به قلب اتفاق می‌افتد.\nب) قلب در بخش‌های پشتی و انتهایی بدن قابل مشاهده است.\nج) شبکه‌های مویرگی، خون یا لنف را به سمت قلب هدایت می‌کند.",
-      options: ["۱) ۱", "۲) ۲", "۳) ۳", "۴) صفر"],
-      answer: 0
-    },
-    {
-      q: "در دستگاه گردش مواد انسان، سه نوع رگ خونی در شبکه‌ای مرتبط به هم وجود دارند. در خصوص نوعی از رگ‌های خونی که بیشتر حجم خون بدن درون آن‌ها قرار دارد، کدام مورد نادرست است؟",
-      options: [
-        "برخلاف دو نوع رگ دیگر، قطر آن‌ها می‌تواند در پی انقباض نوعی ماهیچه مخطط تغییر کند.",
-        "همانند یک نوع رگ دیگر، در همه لایه‌های دیواره خود، رشته‌های پروتئینی دارد.",
-        "نسبت به دو نوع رگ دیگر، به طور میانگین کمترین فشار خون را دارد.",
-        "برخلاف یک نوع رگ دیگر، در نبود خون باز نمی‌ماند."
-      ],
-      answer: 3
-    },
-    {
-      q: "کدام دو مورد زیر، ویژگی مشترک سیاهرگ‌ها و سرخرگ‌ها را نشان می‌دهد؟",
-      options: [
-        "وجود بنداره تنظیم‌کننده جریان خون - قرارگیری در بخش‌های سطحی بدن",
-        "بیشتر بودن ضخامت لایه خارجی دیواره از لایه میانی - داشتن گیرنده حسی",
-        "جریان خون ناشی از تلمبه ماهیچه‌ای - مشاهده پروتئین‌ها در هر سه لایه دیواره",
-        "ارتباط با دریچه یک‌طرفه‌کننده جریان خون - حس شدن تغییر حجم به صورت نبض"
-      ],
-      answer: 2
-    },
-    {
-      q: "در انسان، انواع رگ‌های خونی که در ساختار خود دارای سه لایه اصلی هستند، از نظر ............ با یکدیگر تفاوت دارند.",
-      options: [
-        "ایجاد ساختاری مناسب جهت فعالیت خود",
-        "هدایت جریان خون به سوی شبکه‌های مویرگی",
-        "ایجاد ساختاری به منظور یک‌طرفه کردن جریان خون",
-        "تولید مقدار زیادی رشته پروتئینی منشعب در لایه میانی"
-      ],
-      answer: 2
-    },
-    {
-      q: "در خصوص کوچک‌ترین رگ‌های خونی بدن انسان، چند مورد نادرست است؟\nالف) نوعی از آن‌ها که در کلیه دیده می‌شود، منافذ متعددی در غشای یاخته‌های دیواره خود دارد.\nب) نوعی از آن‌ها که در مغز میانی دیده می‌شود، امکان تبادل مناسب مواد را فراهم می‌کند.\nج) نوعی از آن‌ها که در ساختار نخاع دیده می‌شود، دارای ضخیم‌ترین غشای پایه است.\nد) نوعی از آن‌ها که در کبد دیده می‌شود، دارای نوعی غشای پایه ناقص است.",
-      options: ["۱", "۲", "۳", "۴"],
-      answer: 0
-    },
-    {
-      q: "در ارتباط با گروهی از رگ‌های خونی که در تنظیم میزان ورود خون به مویرگ‌ها نقش اصلی را دارند، کدام مورد درست است؟",
-      options: [
-        "نسبت به رگ‌های بزرگ‌تر، ویژگی کشسانی دیواره آن‌ها بیشتر است.",
-        "در مرحله دیاستول بطنی، ماهیچه صاف دیواره آن‌ها در حال استراحت است.",
-        "نسبت به گروهی از رگ‌های هم اندازه خود، دیواره نازک‌تر و حفره داخلی بزرگ‌تری دارند.",
-        "در پی اثر یک گاز تنفسی بر یاخته‌های دیواره آن‌ها، مصرف نوعی گاز تنفسی دیگر در آن‌ها کاهش می‌یابد."
-      ],
-      answer: 3
-    },
-    {
-      q: "چند مورد، برای تکمیل عبارت زیر نامناسب است؟\n«در بدن انسان، درباره رگ خونی که خون را وارد یک شبکه مویرگی می‌کند، می‌توان گفت که ............»",
-      options: [
-        "الف) ممکن است فشار سرخرگی نقشی در ادامه جریان خون در آن نداشته باشد.",
-        "ب) ممکن نیست نسبت به سرخرگ آئورت، مقاومت بیشتری داشته باشد.",
-        "ج) به طور حتم، در لایه میانی خود، رشته‌های کشسان زیادی دارد.",
-        "د) به طور حتم، دهانه آن حتی در نبود خون باز است."
-      ],
-      answer: 3
-    }
-  ]
-
-};
-
-// =================================================
-
-let user = {}, answers = [], currentQ = 0, timeLeft = 0, timerInt, totalTime = 0, questions = [];
-
-/* ---------- تم ---------- */
-function toggleTheme() {
-  document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
-  document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-}
-if (localStorage.getItem('theme') === 'dark') {
-  document.body.classList.add('dark');
-  document.getElementById('themeBtn').textContent = '☀️';
-}
-
-/* ---------- شروع آزمون ---------- */
-function startExam() {
-  const nameInput = document.getElementById('fullName').value.trim();
-  if (!nameInput) {
-    shake(document.getElementById('fullName'));
-    return;
-  }
-  user.name = nameInput;
-  user.topic = document.getElementById('topic').value;
-  user.duration = parseInt(document.getElementById('duration').value) || 25;
-
-  questions = questionBank[user.topic] || [];
-  if (questions.length === 0) {
-    alert('سوالی برای این سرفصل یافت نشد!');
-    return;
-  }
-
-  totalTime = user.duration * 60;
-  timeLeft = totalTime;
-  answers = new Array(questions.length).fill(null);
-
-  document.getElementById('startPage').classList.add('hidden');
-  document.getElementById('examPage').classList.remove('hidden');
-  renderQuestion();
-  startTimer();
-}
-
-function shake(el) {
-  el.style.borderColor = '#f5576c';
-  setTimeout(() => { el.style.borderColor = ''; }, 1200);
-  el.animate([
-    { transform: 'translateX(0)' },
-    { transform: 'translateX(-8px)' },
-    { transform: 'translateX(8px)' },
-    { transform: 'translateX(-8px)' },
-    { transform: 'translateX(0)' }
-  ], { duration: 400 });
-  el.focus();
-}
-
-/* ---------- تایمر ---------- */
-function startTimer() {
-  updateTimer();
-  timerInt = setInterval(() => {
-    timeLeft--;
-    updateTimer();
-    if (timeLeft <= 0) finishExam();
-  }, 1000);
-}
-
-function updateTimer() {
-  const m = Math.floor(timeLeft / 60), s = timeLeft % 60;
-  const el = document.getElementById('timer');
-  el.textContent = `⏱️ ${m}:${s.toString().padStart(2,'0')}`;
-  el.classList.toggle('warning', timeLeft <= 30);
-}
-
-/* ---------- نمایش سوال ---------- */
-function renderQuestion() {
-  const q = questions[currentQ];
-  const letters = ['الف','ب','ج','د'];
-  const box = document.getElementById('questionBox');
-  
-  let imageHTML = '';
-  if (q.image) {
-    imageHTML = `<div class="question-image"><img src="${q.image}" alt="تصویر سوال"></div>`;
-  } else if (q.image === null) {
-    imageHTML = `<div class="question-image"><div class="placeholder">📷 [تصویر این سوال در کتاب موجود است - لطفاً در صورت نیاز اضافه کنید]</div></div>`;
-  }
-  
-  box.innerHTML = `
-    <div class="question-card">
-      <div class="question-num">سوال ${currentQ+1}</div>
-      <div class="question">${q.q}</div>
-      ${imageHTML}
-      ${q.options.map((opt, i) => `
-        <label class="option ${answers[currentQ]===i?'selected':''}" data-i="${i}">
-          <input type="radio" name="opt" value="${i}" ${answers[currentQ]===i?'checked':''} onchange="pick(${i})">
-          <span class="option-letter">${letters[i]||i+1}</span>
-          <span>${opt}</span>
-        </label>`).join('')}
-    </div>`;
-
-  const pct = ((currentQ + 1) / questions.length) * 100;
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('counter').textContent = `${currentQ+1} / ${questions.length}`;
-
-  document.getElementById('prevBtn').disabled = currentQ === 0;
-  document.getElementById('nextBtn').disabled = currentQ === questions.length - 1;
-}
-
-function pick(i) {
-  answers[currentQ] = i;
-  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-  document.querySelector(`.option[data-i="${i}"]`).classList.add('selected');
-}
-
-function nextQ() { if (currentQ < questions.length-1) { currentQ++; renderQuestion(); } }
-function prevQ() { if (currentQ > 0) { currentQ--; renderQuestion(); } }
-
-/* ---------- پایان و کارنامه ---------- */
-function finishExam() {
-  clearInterval(timerInt);
-  const usedTime = totalTime - timeLeft;
-
-  let answered = 0, empty = 0;
-  questions.forEach((q, i) => {
-    if (answers[i] === null) empty++;
-    else answered++;
-  });
-
-  document.getElementById('examPage').classList.add('hidden');
-  document.getElementById('reportPage').classList.remove('hidden');
-
-  document.getElementById('rName').textContent = user.name;
-  document.getElementById('rTopic').textContent = user.topic;
-  document.getElementById('rTotal').textContent = questions.length + ' سوال';
-  document.getElementById('rAnswered').textContent = answered + ' سوال';
-  document.getElementById('rEmpty').textContent = empty + ' سوال';
-  document.getElementById('rTotalTime').textContent = user.duration + ' دقیقه';
-  document.getElementById('rUsedTime').textContent = formatTime(usedTime);
-  document.getElementById('rAnsweredBig').textContent = answered;
-  document.getElementById('rEmptyBig').textContent = empty;
-}
-
-function formatTime(sec) {
-  const m = Math.floor(sec/60), s = sec%60;
-  return `${m} دقیقه و ${s} ثانیه`;
-}
-
-/* ---------- دانلود PDF ---------- */
-function downloadPDF() {
-  const el = document.getElementById('reportContent');
-  const isDark = document.body.classList.contains('dark');
-  html2pdf().set({
-    margin: 10,
-    filename: `کارنامه_${user.name}.pdf`,
-    html2canvas: { scale: 2, backgroundColor: isDark ? '#1e293b' : '#ffffff' },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).from(el).save();
-}
-</script>
-</body>
-  </html>
+      q: "با توجه به مطلب کتاب درسی درباره سامانه 
